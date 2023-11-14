@@ -2,15 +2,10 @@ const express = require("express");
 const router = express.Router();
 const {
   getAllStories,
-  getStoryById,
+  getStoryByID,
 } = require("../controllers/storiesController");
 
-router.param('storyId', (req, res, next, storyId) => {
-  req.storyId = storyId;
-  next();
-});
-
 router.get("/", getAllStories);
-router.get("/:storyID", getStoryById);
+router.get("/:storyID", getStoryByID);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const getIndex = (req, res) => {
-    res.sendFile(__dirname + "/public/index.html");
+    res.render('index')
   };
 
   module.exports = {getIndex}
