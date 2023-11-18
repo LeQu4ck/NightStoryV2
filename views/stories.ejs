@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/stories.css" />
     <link rel="stylesheet" href="css/nav.css" />
     <link rel="stylesheet" href="css/footer.css" />
 
-    <title>Night Story</title>
+    <script defer src="/js/storyFilter.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <title>Stories</title>
   </head>
-
   <body background="images/bg.jpg">
-
     <div class="top">
       <input type="checkbox" id="toggle-btn" />
       <label for="toggle-btn" class="show-menu-btn"
@@ -22,7 +23,7 @@
 
       <div class="nav">
         <div class="logo">
-          <a href="index.html"><img src="images/logo.png" alt="Logo" /></a>
+          <a href="/"><img src="images/logo.png" alt="Logo" /></a>
         </div>
 
         <ul class="navigation">
@@ -43,26 +44,30 @@
       </div>
     </div>
 
-    <div class="contents">
-      <div class="intro">
-        <div class="greeting">
-          <h1>This is <i>Night Story</i>!</h1>
-          <h3>
-            <i>Night Story </i> is a platform that allows users to share their
-            stories, be them fictional or real, with the entire World.
-          </h3>
-          <h3>Let your creativity flow!</h3>
-        </div>
-        <div class="main-pg-btns">
-          <ul>
-            <li><a href="/stories"> Start reading! </a></li>
+    <div class="genres-menu">
+      <form class="genres-container-dropdown" method="post">
+        <div class="dropdown-row">
+          <label for="Genres" placeholder="Choose">Choose a genre:</label>
 
-            <li><a href="#"> Start writing! </a></li>
-          </ul>
+          <select name="Genres" id="genres">
+            <option value="All" selected>All</option>
+            <option value="Novel">Novel</option>
+            <option value="Horror">Horror</option>
+            <option value="Science Fiction">Science Fiction</option>
+            <option value="Romance">Romance</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Paranormal">Paranormal</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Drama">Drama</option>
+            <option value="Folklore">Folklore</option>
+          </select>
         </div>
-      </div>
-
+      </form>
     </div>
+
+    <div class="browse-content" id="results"></div>
 
     <div class="footer">
       <div class="social-links">
@@ -80,6 +85,5 @@
         <li><a href="#"> &copy 2023 </a></li>
       </ul>
     </div>
-    
   </body>
 </html>
