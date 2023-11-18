@@ -3,6 +3,7 @@ const testStories = [
     id: 1,
     title: "The Adventure Begins",
     genre: "Thriller",
+    preview: "Short resume",
     content: "Once upon a time...",
     author: "John Doe",
   },
@@ -10,6 +11,7 @@ const testStories = [
     id: 2,
     title: "Mystery in the Moonlight",
     genre: "Romance",
+    preview: "Short resume",
     content: "In the eerie glow of the moon...",
     author: "Jane Smith",
   },
@@ -17,6 +19,7 @@ const testStories = [
     id: 3,
     title: "Lost in the Wilderness",
     genre: "Fantasy",
+    preview: "Short resume",
     content: "Far away from civilization...",
     author: "Alex Johnson",
   },
@@ -24,6 +27,7 @@ const testStories = [
     id: 4,
     title: "Lost in the Woods",
     genre: "Fantasy",
+    preview: "Short resume",
     content: "Far away from civilization...",
     author: "Alex Johnson",
   },
@@ -36,14 +40,11 @@ const getStories = (req, res) => {
 const getStoriesByGenre = (req, res) => {
   const genre = req.params.filter || "All";
 
-
   let filteredStories;
 
   if (genre === "All") {
-
     filteredStories = testStories;
   } else {
-    
     filteredStories = testStories.filter((story) => story.genre === genre);
   }
 

@@ -14,10 +14,26 @@ document.addEventListener("DOMContentLoaded", function () {
               <div class="story-content">
                 <div class="story-image"></div>
                 <div class="story-details">
-                  <h2><a href="/stories/${story.id}">${story.title}</a></h2>
-                  <p>Author: ${story.author}</p>
-                  <p class="genres">Genres: ${story.genre}</p>
-                  <p>${story.content}</p>
+
+                  <div class="story-tile">
+                    <a href="stories/${story.id}">Title: ${story.title}</a>
+                  </div>
+
+                  <div class="story-author">
+                    Author: ${story.author}
+                  </div>
+
+                  <div class="number-of-views">
+                    <i class="fas fa-eye"></i> 200
+                  </div>
+
+                  <div class="story-preview">
+                    Preview: ${story.preview}
+                  </div>
+
+                  <div class="story-genre">
+                    Genre: ${story.genre}
+                  </div>
                 </div>
               </div>
             `;
