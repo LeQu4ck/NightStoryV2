@@ -97,7 +97,6 @@ body {
     justify-content: center;
     align-items: center;
     
-    /* background-color: green; */
     padding-bottom: 10px;
 
     border-radius:10px;
@@ -125,6 +124,15 @@ body {
     font-size: 3vh;
 
     border-radius: 10px;
+}
+
+.new-genre{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
 }
 
 .story-details label{

@@ -83,11 +83,16 @@ const genres = [
   "Folklore",
 ];
 
+const multer = require("multer");
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const getStories = (req, res) => {
   res.render("stories");
 };
 const getCompose = (req, res) => {
-  res.render("compose", {genres});
+  res.render("compose", { genres });
 };
 
 const getStoriesByGenre = (req, res) => {
@@ -115,4 +120,33 @@ const getStoryByID = (req, res) => {
   }
 };
 
-module.exports = { getStories, getStoryByID, getStoriesByGenre, getCompose };
+const postStory = (req, res) => {
+  upload.single("ImgInp")(req, res, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error uploading file.");
+    }
+
+    const { title, preview, genre, newGenre, body } = req.body;
+    const selectedGenre = newGenre ? newGenre : genre;
+
+    const story = {
+      title: title,
+      preview: preview,
+      genre: selectedGenre,
+      content: body,
+      coverImage: req.file ? req.file.buffer : null,
+    };
+
+    console.log(story);
+    res.redirect("/stories/compose");
+  });
+};
+
+module.exports = {
+  getStories,
+  getStoryByID,
+  getStoriesByGenre,
+  getCompose,
+  postStory,
+};
