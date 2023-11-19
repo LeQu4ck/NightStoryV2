@@ -68,9 +68,26 @@ const testStories = [
     ],
   },
 ];
+const genres = [
+  "All",
+  "Novel",
+  "Horror",
+  "Science Fiction",
+  "Romance",
+  "Fantasy",
+  "Paranormal",
+  "Mystery",
+  "Adventure",
+  "Thriller",
+  "Drama",
+  "Folklore",
+];
 
 const getStories = (req, res) => {
   res.render("stories");
+};
+const getCompose = (req, res) => {
+  res.render("compose", {genres});
 };
 
 const getStoriesByGenre = (req, res) => {
@@ -98,4 +115,4 @@ const getStoryByID = (req, res) => {
   }
 };
 
-module.exports = { getStories, getStoryByID, getStoriesByGenre };
+module.exports = { getStories, getStoryByID, getStoriesByGenre, getCompose };

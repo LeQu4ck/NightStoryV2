@@ -9,6 +9,7 @@ app.use(express.static("public"));
 
 app.use("/", homeRoute);
 app.use("/stories", storiesRoutes);
+app.use("/stories/compose", storiesRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

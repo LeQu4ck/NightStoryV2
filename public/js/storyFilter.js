@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         } else {
           const emptyDiv = document.createElement("div");
-          emptyDiv.classList.add("empty"); // remove the dot before "empty"
+          emptyDiv.classList.add("empty"); 
           emptyDiv.textContent = `Nu exista nici un rezultat pentru selectia ${genre}!`;
           resultsContainer.appendChild(emptyDiv);
         }
