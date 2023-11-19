@@ -5,15 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/nav.css" />
     <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/readStory.css" />
 
-    <title>Night Story</title>
+    <title>Read Story</title>
   </head>
 
   <body background="/images/bg.jpg">
-
     <div class="top">
       <input type="checkbox" id="toggle-btn" />
       <label for="toggle-btn" class="show-menu-btn"
@@ -30,7 +29,7 @@
             <a href="/"><i class="fas fa-house-damage"></i> Home </a>
           </li>
           <li>
-            <a href="stories.html"><i class="fas fa-book-open"></i> Stories </a>
+            <a href="/stories"><i class="fas fa-book-open"></i> Stories </a>
           </li>
           <li>
             <a href="#"><i class="fas fa-question"></i> About </a>
@@ -43,25 +42,50 @@
       </div>
     </div>
 
-    <div class="contents">
-      <div class="intro">
-        <div class="greeting">
-          <h1>This is <i>Night Story</i>!</h1>
-          <h3>
-            <i>Night Story </i> is a platform that allows users to share their
-            stories, be them fictional or real, with the entire World.
-          </h3>
-          <h3>Let your creativity flow!</h3>
+    <div class="story-body" id="storybody">
+      <div class="story-antet">
+        <div class="story-image">
+          <img id="coverImg" name="cover_image" src="" alt="cover-img" />
         </div>
-        <div class="main-pg-btns">
-          <ul>
-            <li><a href="/stories"> Start reading! </a></li>
 
-            <li><a href="#"> Start writing! </a></li>
-          </ul>
+        <div class="story-details">
+          <div class="story-title">Title: <%= story.title%></div>
+
+          <div class="story-author">Author: <%= story.author%></div>
+
+          <div class="story-preview">Preview: <%= story.preview %></div>
+
+          <div class="story-date-and-number-of-views">
+            <div class="story-date">Date: <%= story.publishDate %></div>
+
+            <div class="story-number-of-views">
+              <i class="fas fa-eye">200</i>
+            </div>
+          </div>
+
+          <div class="story-genre">Genre: <%= story.genre %></div>
         </div>
       </div>
 
+      <div class="read-block"><%= story.content %></div>
+    </div>
+
+    <div class="comment-section">
+      <% story.comments.forEach(comment => { %>
+      <div class="comment">
+        <div class="name-and-date">
+          <div class="comment-name">
+            <a href="#"><%= comment.name %></a>
+          </div>
+          <div class="comment-date"><%= comment.date %></div>
+        </div>
+        <div class="comment-body"><%= comment.body %></div>
+      </div>
+      <% }); %> <% if (story.comments.length === 0) { %>
+      <div class="no-comments">
+        <i class="fa-solid fa-heart-crack">No comments available.</i>
+      </div>
+      <% } %>
     </div>
 
     <div class="footer">
@@ -80,6 +104,5 @@
         <li><a href="#"> &copy 2023 </a></li>
       </ul>
     </div>
-    
   </body>
 </html>

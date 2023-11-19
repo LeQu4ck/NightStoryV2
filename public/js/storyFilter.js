@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const genresDropdown = document.getElementById("genres");
   const resultsContainer = document.getElementById("results");
 
-  const fetchAndDisplayStories = (genre) => {
-    fetch(`/stories/filter/${genre}`)
+  const fetchAndDisplayStories = async (genre) => {
+    await fetch(`/stories/filter/${genre}`)
       .then((response) => response.json())
       .then((data) => {
         resultsContainer.innerHTML = "";
