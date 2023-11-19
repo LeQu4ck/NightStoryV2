@@ -127,18 +127,27 @@ const postStory = (req, res) => {
       return res.status(500).send("Error uploading file.");
     }
 
-    const { title, preview, genre, newGenre, body } = req.body;
-    const selectedGenre = newGenre ? newGenre : genre;
+    const { title, author, preview, Genres, newGenre, body } = req.body;
 
+    const selectedGenre = newGenre ? newGenre : Genres;
+
+    if (!genres.includes(selectedGenre)) {
+      genres.push(selectedGenre);
+    }
     const story = {
+      id: testStories.length + 1,
       title: title,
-      preview: preview,
       genre: selectedGenre,
+      preview: preview,
       content: body,
-      coverImage: req.file ? req.file.buffer : null,
+      author: author,
+      comments: [],
+      publishDate: new Date().toLocaleDateString(),
     };
 
-    console.log(story);
+    testStories.push(story);
+    console.log(testStories[testStories.length - 1]);
+
     res.redirect("/stories/compose");
   });
 };

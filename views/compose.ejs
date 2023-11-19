@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/compose.css" />
 
-    <script defer src="/js/composeImgHandler.js"></script>
+    <script defer src="/js/compose.js"></script>
 
     <title>Compose</title>
   </head>
@@ -86,6 +86,14 @@
               name="title"
               required
             />
+            <label for="author"> Author:</label>
+
+            <input
+              type="text"
+              placeholder="Author"
+              name="author"
+              required
+            />
 
             <div class="preview">
               <label for="preview"> Write a preview (optional):</label>
@@ -107,8 +115,29 @@
             </select>
 
             <div class="new-genre">
-              <label for="newGenre">Or enter a new genre:</label>
-              <input type="text" id="newGenre" name="newGenre" placeholder="Enter new genre"/>
+              <div class="genre-checkbox">
+                <div>
+                  <input
+                    type="checkbox"
+                    id="newGenreCheckbox"
+                    name="newGenreCheckbox"
+                  />
+                </div>
+
+                <div>
+                  <label for="newGenreCheckbox"
+                    >I want to type a new genre</label
+                  >
+                </div>
+              </div>
+
+              <input
+                type="text"
+                id="newGenre"
+                name="newGenre"
+                placeholder="Enter new genre"
+                style="display: none"
+              />
             </div>
           </div>
         </div>
