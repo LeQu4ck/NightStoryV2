@@ -71,6 +71,34 @@
     </div>
 
     <div class="comment-section">
+      <div class="add-comment">
+        <form action="/stories/new-comment" method="post">
+          <input type="hidden" name="storyID" value="<%= story.id %>" />
+          <input
+            type="text"
+            name="commentName"
+            id="commentName"
+            placeholder="Enter name"
+            required
+          />
+          <!-- <label for="commentName"></label> -->
+
+          <div class="comment-body-and-button">
+            <input
+              type="text"
+              name="newComment"
+              id="newComment"
+              placeholder="Enter new comment..."
+            />
+            <!-- <label for="newComment"></label> -->
+
+            <div class="submitbtn">
+              <button type="submit">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <hr />
       <% story.comments.forEach(comment => { %>
       <div class="comment">
         <div class="name-and-date">

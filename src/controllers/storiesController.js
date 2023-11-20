@@ -152,10 +152,33 @@ const postStory = (req, res) => {
   });
 };
 
+const postComment = (req, res) => {
+  const { storyID, commentName, newComment } = req.body;
+
+  const comment = {
+    name: commentName,
+    body: newComment,
+    date: new Date().toLocaleDateString(),
+  };
+
+  const storyIndex = testStories.findIndex(
+    (story) => story.id === parseInt(storyID)
+  );
+
+  if (storyIndex !== -1) {
+    testStories[storyIndex].comments.push(comment);
+    console.log(testStories[storyIndex]);
+  }
+
+  console.log(testStories[storyID - 1]);
+  res.redirect(`/stories/${storyID}`);
+};
+
 module.exports = {
   getStories,
   getStoryByID,
   getStoriesByGenre,
   getCompose,
   postStory,
+  postComment,
 };
