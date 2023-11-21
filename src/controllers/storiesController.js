@@ -122,10 +122,10 @@ const getStoryByID = (req, res) => {
 
 const getEditStory = (req, res) => {
   const storyID = req.params.storyID;
-  const existingStory = testStories.find((story) => story.id == storyID);
+  const story = testStories.find((story) => story.id == storyID);
 
-  if (existingStory) {
-    res.render("editStory", { story: existingStory, genres });
+  if (story) {
+    res.render("editStory", { story: story, genres });
   } else {
     res.status(404).json({ message: "Story not found" });
   }
@@ -138,38 +138,29 @@ const postStory = (req, res) => {
       return res.status(500).send("Error uploading file.");
     }
 
-    const {storyID, title, author, preview, Genres, newGenre, body } = req.body;
+    const { storyID, title, author, preview, Genres, newGenre, body } =
+      req.body;
 
     const selectedGenre = newGenre ? newGenre : Genres;
 
     if (!genres.includes(selectedGenre)) {
       genres.push(selectedGenre);
     }
-    const story = {
-      id: testStories.length + 1,
-      title: title,
-      genre: selectedGenre,
-      preview: preview,
-      content: body,
-      author: author,
-      comments: [],
-      publishDate: new Date().toLocaleDateString(),
-    };
 
     if (storyID) {
-      // Edit existing story
-      const existingStory = testStories.find((s) => s.id == storyID);
+      const story = testStories.find((s) => s.id == storyID);
 
-      if (existingStory) {
-        existingStory.title = title;
-        existingStory.preview = preview;
-        existingStory.genre = selectedGenre;
-        existingStory.content = body;
-        // Update other properties as needed
+      if (story) {
+        story.title = title;
+        story.preview = preview;
+        story.genre = selectedGenre;
+        story.content = body;
+
+        res.redirect(`/stories/${storyID}`);
       }
     } else {
       const story = {
-        id: testStories.length + 1,
+        id: testStories[testStories.length - 1].id + 1,
         title: title,
         genre: selectedGenre,
         preview: preview,
@@ -182,9 +173,6 @@ const postStory = (req, res) => {
 
       res.redirect("/stories/compose");
     }
-
-    //console.log(testStories[testStories.length - 1]);
-
   });
 };
 
@@ -208,6 +196,18 @@ const postComment = (req, res) => {
   res.redirect(`/stories/${storyID}`);
 };
 
+const deleteStory = (req, res) => {
+  const storyID = parseInt(req.params.storyID, 10);
+  const storyIndex = testStories.findIndex((story) => story.id === storyID);
+
+  if (storyIndex !== -1) {
+    testStories.splice(storyIndex, 1);
+    res.redirect("/stories");
+  } else {
+    res.status(404).json({ message: "Story not found" });
+  }
+};
+
 module.exports = {
   getStories,
   getStoryByID,
@@ -216,4 +216,5 @@ module.exports = {
   getEditStory,
   postStory,
   postComment,
+  deleteStory,
 };
