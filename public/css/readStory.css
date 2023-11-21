@@ -39,10 +39,48 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   padding-right: 10px;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow for a subtle lift */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.story-actions {
+  width: 100%;
+  margin-top: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.edit-story-button {
+  background-color: greenyellow;
+  margin-right: 15px;
+}
+
+.delete-story-button {
+  background-color: red;
+}
+
+.edit-story-button,
+.delete-story-button {
+  width: 100px;
+  padding: 5px 10px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-story-button a,
+.delete-story-button a {
+  text-decoration: none;
+  color: black;
 }
 
 .story-image {
@@ -50,15 +88,15 @@ body {
   height: 220px;
   background-color: white;
   border-radius: 10px;
-  overflow: hidden; /* Hide image overflow */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add box shadow for a subtle lift */
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .story-image img {
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  object-fit: cover; /* Maintain image aspect ratio and cover the container */
+  object-fit: cover;
 }
 
 .story-details {
@@ -68,10 +106,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; /* Align text to the left */
+  align-items: flex-start;
   background-color: #626beb;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow for a subtle lift */
 }
 
 .story-title {
@@ -93,7 +130,7 @@ body {
 
 .story-author a {
   text-decoration: none;
-  color: #333; /* Set link color */
+  color: #333;
 }
 
 .story-preview,
@@ -514,7 +551,7 @@ body {
 
   .no-comments {
     font-size: 18px;
-    color: #555; /* Adjust the color as needed */
+    color: #555;
     margin-top: 10px;
   }
 

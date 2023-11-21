@@ -120,6 +120,17 @@ const getStoryByID = (req, res) => {
   }
 };
 
+const getEditStory = (req, res) => {
+  const storyID = req.params.storyID;
+  const existingStory = testStories.find((story) => story.id == storyID);
+
+  if (existingStory) {
+    res.render("editStory", { story: existingStory, genres });
+  } else {
+    res.status(404).json({ message: "Story not found" });
+  }
+};
+
 const postStory = (req, res) => {
   upload.single("ImgInp")(req, res, (err) => {
     if (err) {
@@ -127,7 +138,7 @@ const postStory = (req, res) => {
       return res.status(500).send("Error uploading file.");
     }
 
-    const { title, author, preview, Genres, newGenre, body } = req.body;
+    const {storyID, title, author, preview, Genres, newGenre, body } = req.body;
 
     const selectedGenre = newGenre ? newGenre : Genres;
 
@@ -145,10 +156,35 @@ const postStory = (req, res) => {
       publishDate: new Date().toLocaleDateString(),
     };
 
-    testStories.push(story);
-    console.log(testStories[testStories.length - 1]);
+    if (storyID) {
+      // Edit existing story
+      const existingStory = testStories.find((s) => s.id == storyID);
 
-    res.redirect("/stories/compose");
+      if (existingStory) {
+        existingStory.title = title;
+        existingStory.preview = preview;
+        existingStory.genre = selectedGenre;
+        existingStory.content = body;
+        // Update other properties as needed
+      }
+    } else {
+      const story = {
+        id: testStories.length + 1,
+        title: title,
+        genre: selectedGenre,
+        preview: preview,
+        content: body,
+        author: author,
+        comments: [],
+        publishDate: new Date().toLocaleDateString(),
+      };
+      testStories.push(story);
+
+      res.redirect("/stories/compose");
+    }
+
+    //console.log(testStories[testStories.length - 1]);
+
   });
 };
 
@@ -177,6 +213,7 @@ module.exports = {
   getStoryByID,
   getStoriesByGenre,
   getCompose,
+  getEditStory,
   postStory,
   postComment,
 };
