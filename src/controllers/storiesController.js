@@ -89,7 +89,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const getStories = (req, res) => {
-  res.render("stories");
+  res.render("stories", { genres });
 };
 const getCompose = (req, res) => {
   res.render("compose", { genres });
@@ -169,8 +169,6 @@ const postComment = (req, res) => {
     testStories[storyIndex].comments.push(comment);
     console.log(testStories[storyIndex]);
   }
-
-  console.log(testStories[storyID - 1]);
   res.redirect(`/stories/${storyID}`);
 };
 

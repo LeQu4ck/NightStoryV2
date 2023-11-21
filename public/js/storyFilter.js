@@ -27,13 +27,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     <i class="fas fa-eye"></i> 200
                   </div>
 
+                  <div class="story-genre">
+                    Genre: ${story.genre}
+                  </div>
+                  
                   <div class="story-preview">
                     Preview: ${story.preview}
                   </div>
 
-                  <div class="story-genre">
-                    Genre: ${story.genre}
-                  </div>
                 </div>
               </div>
             `;
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         } else {
           const emptyDiv = document.createElement("div");
-          emptyDiv.classList.add("empty"); 
+          emptyDiv.classList.add("empty");
           emptyDiv.textContent = `Nu exista nici un rezultat pentru selectia ${genre}!`;
           resultsContainer.appendChild(emptyDiv);
         }
