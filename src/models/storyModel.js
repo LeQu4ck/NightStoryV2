@@ -6,12 +6,13 @@ const storySchema = new mongoose.Schema({
   preview: String,
   genre: String,
   content: String,
-  coverImage: String,  
+  coverImage: String,
+  publishDate: String,  
   comments: [
     {
       name: String,
       body: String,
-      date: { type: Date, default: Date.now },
+      date: String,
     },
   ],
 });

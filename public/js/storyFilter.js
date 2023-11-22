@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="story-details">
 
                   <div class="story-tile">
-                    <a href="stories/${story.id}">Title: ${story.title}</a>
+                    <a href="stories/${story._id}">Title: ${story.title}</a>
                   </div>
 
                   <div class="story-author">

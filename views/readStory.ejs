@@ -49,10 +49,10 @@
       <div class="story-antet">
         <div class="story-actions">
           <div class="edit-story-button">
-            <a href="/stories/edit/<%= story.id %>">Edit story</a>
+            <a href="/stories/edit/<%= story._id %>">Edit story</a>
           </div>
           <div class="delete-story-button">
-            <a href="/stories/delete-story/<%= story.id%>">Delete story</a>
+            <a href="/stories/delete-story/<%= story._id%>">Delete story</a>
           </div>
         </div>
 
@@ -85,7 +85,7 @@
     <div class="comment-section">
       <div class="add-comment">
         <form action="/stories/new-comment" method="post">
-          <input type="hidden" name="storyID" value="<%= story.id %>" />
+          <input type="hidden" name="storyID" value="<%= story._id %>" />
           <input
             type="text"
             name="commentName"

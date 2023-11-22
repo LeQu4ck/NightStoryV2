@@ -49,19 +49,22 @@
     </div>
 
     <div class="genres">
-      <% if (genres.length > 0) { %>
+      <% if (genres.length > 1) { %>
       <ul>
-        <% genres.forEach(genre => { %>
+        <% genres.forEach(genre => { if(genre.genreName !== "All") { %>
         <li>
-          <%= genre.genreName %>
-          <form action="/genres/edit/<%= genre._id %>" method="get">
-            <button type="submit">Edit</button>
-          </form>
-          <form action="/genres/delete/<%= genre._id %>" method="get">
-            <button type="submit">Delete</button>
-          </form>
+          <div class="genre-name"><%= genre.genreName %></div>
+ 
+          <div class="genre-actions">
+            <form action="/genres/edit/<%= genre._id %>" method="get">
+              <button type="submit">Edit</button>
+            </form>
+            <form action="/genres/delete/<%= genre._id %>" method="get">
+              <button type="submit">Delete</button>
+            </form>
+          </div>
         </li>
-        <% }); %>
+        <% } }); %>
       </ul>
       <% } else { %>
       <div class="empty">No genres available.</div>

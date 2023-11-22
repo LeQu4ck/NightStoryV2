@@ -91,12 +91,7 @@
             />
             <label for="author"> Author:</label>
 
-            <input
-              type="text"
-              placeholder="Author"
-              name="author"
-              required
-            />
+            <input type="text" placeholder="Author" name="author" required />
 
             <div class="preview">
               <label for="preview"> Write a preview (optional):</label>
@@ -112,9 +107,11 @@
             <label for="Genres" placeholder="Choose">Choose a genre:</label>
             <select name="Genres" id="genres">
               <option selected="select">Select</option>
-              <% genres.forEach(genre => { %>
-              <option value="<%= genre %>"><%= genre %></option>
-              <% }); %>
+              <% genres.forEach(genre => { if(genre.genreName !== "All") {%>
+              <option value="<%= genre.genreName %>">
+                <%= genre.genreName %>
+              </option>
+              <%} }); %>
             </select>
 
             <div class="new-genre">

@@ -82,8 +82,8 @@
           <select name="Genres" id="genres">
             <option value="" <% if (!story.genre) { %> selected <% } %>>Select</option>
             <% genres.forEach(function(genre) { %>
-            <option value="<%= genre %>" <% if (story.genre === genre) { %> selected<% } %>>
-              <%= genre %>
+            <option value="<%= genre.genreName %>" <% if (story.genre === genre.genreName) { %> selected<% } %>>
+              <%= genre.genreName %>
             </option>
             <% }); %>
           </select>

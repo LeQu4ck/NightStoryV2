@@ -1,55 +1,80 @@
-const Story = require('../models/storyModel');
+const { getGenres, checkGenre } = require("../../services/genreService");
+const Story = require("../models/storyModel");
 
 const multer = require("multer");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const getStories = (req, res) => {
-  res.render("stories", { genres });
+const getStories = async (req, res) => {
+  try {
+    const genres = await getGenres();
+    res.render("stories", { genres });
+  } catch (error) {
+    console.error("Error fetching stories and genres:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
-const getCompose = (req, res) => {
-  res.render("compose", { genres });
+const getCompose = async (req, res) => {
+  try {
+    const genres = await getGenres();
+    res.render("compose", { genres });
+  } catch (error) {
+    console.error("Error fetching stories and genres:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
-const getStoriesByGenre = (req, res) => {
+const getStoriesByGenre = async (req, res) => {
   const genre = req.params.filter || "All";
 
-  let filteredStories;
+  try {
+    let filteredStories;
 
-  if (genre === "All") {
-    filteredStories = testStories;
-  } else {
-    filteredStories = testStories.filter((story) => story.genre === genre);
+    if (genre === "All") {
+      filteredStories = await Story.find();
+    } else {
+      filteredStories = await Story.find({ genre: genre });
+    }
+
+    res.json({ stories: filteredStories });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  res.json({ stories: filteredStories });
 };
 
-const getStoryByID = (req, res) => {
+const getStoryByID = async (req, res) => {
   const storyID = req.params.storyID;
-  const result = testStories.find((story) => story.id == storyID);
 
-  if (result) {
-    res.render("readStory", { story: result });
-  } else {
-    res.status(404).json({ message: "Story not found" });
+  try {
+    const story = await Story.findById({ _id: storyID });
+    if (story) {
+      res.render("readStory", { story: story });
+    } else {
+      res.status(404).json({ message: "Story not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-const getEditStory = (req, res) => {
+const getEditStory = async (req, res) => {
   const storyID = req.params.storyID;
-  const story = testStories.find((story) => story.id == storyID);
-
-  if (story) {
-    res.render("editStory", { story: story, genres });
-  } else {
-    res.status(404).json({ message: "Story not found" });
+  try {
+    const story = await Story.findById({ _id: storyID });
+    const genres = await getGenres();
+    if (story) {
+      res.render("editStory", { story: story, genres });
+    } else {
+      res.status(404).json({ message: "Story not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-const postStory = (req, res) => {
-  upload.single("ImgInp")(req, res, (err) => {
+const postStory = async (req, res) => {
+  upload.single("ImgInp")(req, res, async (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send("Error uploading file.");
@@ -60,40 +85,49 @@ const postStory = (req, res) => {
 
     const selectedGenre = newGenre ? newGenre : Genres;
 
-    if (!genres.includes(selectedGenre)) {
-      genres.push(selectedGenre);
-    }
+    const genreExists = await checkGenre(selectedGenre);
 
     if (storyID) {
-      const story = testStories.find((s) => s.id == storyID);
-
-      if (story) {
-        story.title = title;
-        story.preview = preview;
-        story.genre = selectedGenre;
-        story.content = body;
+      try {
+        await Story.findByIdAndUpdate(
+          storyID,
+          {
+            title,
+            preview,
+            genre: selectedGenre,
+            content: body,
+          },
+          { new: true }
+        );
 
         res.redirect(`/stories/${storyID}`);
+      } catch (error) {
+        console.error("Error updating story:", error);
+        res.status(500).json({ error: "Error updating story." });
       }
     } else {
-      const story = {
-        id: testStories[testStories.length - 1].id + 1,
-        title: title,
-        genre: selectedGenre,
-        preview: preview,
-        content: body,
-        author: author,
-        comments: [],
-        publishDate: new Date().toLocaleDateString(),
-      };
-      testStories.push(story);
+      try {
+        const newStory = new Story({
+          title,
+          genre: selectedGenre,
+          preview,
+          content: body,
+          author,
+          comments: [],
+          publishDate: new Date().toLocaleDateString(),
+        });
 
-      res.redirect("/stories/compose");
+        const savedStory = await newStory.save();
+        res.redirect(`/stories/${savedStory._id}`);
+      } catch (error) {
+        console.error("Error creating story:", error);
+        res.status(500).json({ error: "Error creating story." });
+      }
     }
   });
 };
 
-const postComment = (req, res) => {
+const postComment = async (req, res) => {
   const { storyID, commentName, newComment } = req.body;
 
   const comment = {
@@ -102,26 +136,33 @@ const postComment = (req, res) => {
     date: new Date().toLocaleDateString(),
   };
 
-  const storyIndex = testStories.findIndex(
-    (story) => story.id === parseInt(storyID)
-  );
+  try {
+    const story = await Story.findOneAndUpdate(
+      { _id: storyID },
+      { $push: { comments: comment } },
+      { new: true }
+    );
 
-  if (storyIndex !== -1) {
-    testStories[storyIndex].comments.push(comment);
-    console.log(testStories[storyIndex]);
+    if (story) {
+      res.redirect(`/stories/${storyID}`);
+    } else {
+      res.status(404).json({ message: "Story not found" });
+    }
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  res.redirect(`/stories/${storyID}`);
 };
 
-const deleteStory = (req, res) => {
-  const storyID = parseInt(req.params.storyID, 10);
-  const storyIndex = testStories.findIndex((story) => story.id === storyID);
+const deleteStory = async (req, res) => {
+  const storyID = req.params.storyID;
 
-  if (storyIndex !== -1) {
-    testStories.splice(storyIndex, 1);
+  try {
+    await Story.deleteOne({ _id: storyID });
     res.redirect("/stories");
-  } else {
-    res.status(404).json({ message: "Story not found" });
+  } catch (error) {
+    console.error("Error creating/updating genre:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
