@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="/css/genres.css" />
     <link rel="stylesheet" href="/css/nav.css" />
     <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/editGenre.css" />
 
-    <title>Genres</title>
+    <title>Edit genre</title>
   </head>
+
   <body background="/images/bg.jpg">
     <div class="top">
       <input type="checkbox" id="toggle-btn" />
@@ -44,28 +45,17 @@
       </div>
     </div>
 
-    <div class="add-genre-button">
-      <a href="/genres/new-genre">Add New Genre</a>
-    </div>
+    <div class="genre-writing">
+      <form class="form" method="post" action="/genres/post-genre">
 
-    <div class="genres">
-      <% if (genres.length > 0) { %>
-      <ul>
-        <% genres.forEach(genre => { %>
-        <li>
-          <%= genre.genreName %>
-          <form action="/genres/edit/<%= genre._id %>" method="get">
-            <button type="submit">Edit</button>
-          </form>
-          <form action="/genres/delete/<%= genre._id %>" method="post">
-            <button type="submit">Delete</button>
-          </form>
-        </li>
-        <% }); %>
-      </ul>
-      <% } else { %>
-      <div class="empty">No genres available.</div>
-      <% } %>
+        <input type="hidden" name="genreID" value="<%= genre._id %>" />
+        <label for="genreName">Genre Name:</label>
+        <input type="text" id="genreName" name="genreName" value="<%= genre.genreName%>" required />
+
+        <div class="submitbtn">
+          <button type="submit">Save Genre</button>
+        </div>
+      </form>
     </div>
 
     <div class="footer">
