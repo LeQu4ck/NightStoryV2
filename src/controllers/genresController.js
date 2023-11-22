@@ -50,7 +50,7 @@ const postGenre = async (req, res) => {
       const newGenre = new Genre({ genreName });
       await newGenre.save();
 
-      return res.redirect("/genres/new-genre");
+      return res.redirect("/genres");
     }
   } catch (error) {
     console.error("Error creating/updating genre:", error);
@@ -58,11 +58,14 @@ const postGenre = async (req, res) => {
   }
 };
 
-const deleteGenre = (req, res) => {
-  const genreID = req.body.genreID;
+const deleteGenre = async (req, res) => {
+  const genreID = req.params.genreID;
+  console.log(genreID)
 
   try {
-    
+    await Genre.deleteOne({ _id: genreID });
+    res.redirect("/genres")
+
   } catch (error) {
     console.error("Error creating/updating genre:", error);
     return res.status(500).json({ message: "Internal server error" });
