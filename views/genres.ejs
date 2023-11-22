@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/css/genres.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <title>Genres</title>
+  </head>
+  <body background="/images/bg.jpg">
+    <div class="top">
+      <input type="checkbox" id="toggle-btn" />
+      <label for="toggle-btn" class="show-menu-btn"
+        ><i class="fas fa-bars"></i
+      ></label>
+
+      <div class="nav">
+        <div class="logo">
+          <a href="/"><img src="/images/logo.png" alt="Logo" /></a>
+        </div>
+
+        <ul class="navigation">
+          <li>
+            <a href="/"><i class="fas fa-house-damage"></i> Home </a>
+          </li>
+          <li>
+            <a href="/stories"><i class="fas fa-book-open"></i> Stories </a>
+          </li>
+          <li>
+            <a href="/stories/compose"><i class="fas fa-pen"></i> Compose </a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-question"></i> About </a>
+          </li>
+
+          <label for="toggle-btn" class="hide-menu-btn"
+            ><i class="fas fa-times"></i
+          ></label>
+        </ul>
+      </div>
+    </div>
+
+    <div class="add-genre-button">
+      <a href="/genres/new-genre">Add New Genre</a>
+    </div>
+
+    <div class="genres">
+      <% if (genres.length > 0) { %>
+      <ul>
+        <% genres.forEach(genre => { %>
+        <li>
+          <%= genre.genreName %>
+          <form action="/genres/<%= genre._id %>/update" method="get">
+            <button type="submit">Update</button>
+          </form>
+          <form action="/genres/<%= genre._id %>/delete" method="post">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <div class="empty">No genres available.</div>
+      <% } %>
+    </div>
+
+    <div class="footer">
+      <div class="social-links">
+        <a href="#"
+          ><i class="fab fa-facebook-square" style="color: #3b5998"></i
+        ></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter" style="color: #00acee"></i></a>
+      </div>
+
+      <ul>
+        <li><a href="#"> Terms </a></li>
+        <li><a href="#"> Privacy </a></li>
+        <li><a href="#"> Help </a></li>
+        <li><a href="#"> &copy 2023 </a></li>
+      </ul>
+    </div>
+  </body>
+</html>
