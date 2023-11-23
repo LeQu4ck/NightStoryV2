@@ -58,7 +58,11 @@
         <input type="hidden" name="storyID" value="<%= story.id %>" />
 
         <div class="story-image">
+          <% if(!story.coverImage) {%>
           <img id="coverImg" name="cover_image" src="/images/defaultStoryImg.png" />
+          <% } else { %>
+            <img id="coverImg" name="cover_image" src="<%= story.coverImage %>" />
+            <% } %>
           <button type="button" onclick="openImgUpload()">
             Choose a cover image
           </button>

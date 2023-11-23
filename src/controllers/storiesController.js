@@ -103,18 +103,19 @@ const postStory = async (req, res) => {
 
     if (storyID) {
       try {
-        await Story.findByIdAndUpdate(
-          storyID,
-          {
-            title,
-            preview,
-            genre: selectedGenre,
-            coverImage: coverImagePath,
-            content: body,
-          },
-          { new: true }
-        );
+        let updateFields = {
+          title,
+          preview,
+          genre: selectedGenre,
+          content: body,
+        };
 
+        if (req.file) {
+          updateFields.coverImage = coverImagePath;
+        }
+
+        await Story.findByIdAndUpdate(storyID, updateFields, { new: true });
+  
         res.redirect(`/stories/${storyID}`);
       } catch (error) {
         console.error("Error updating story:", error);
@@ -134,6 +135,7 @@ const postStory = async (req, res) => {
         });
 
         const savedStory = await newStory.save();
+
         res.redirect(`/stories/${savedStory._id}`);
       } catch (error) {
         console.error("Error creating story:", error);

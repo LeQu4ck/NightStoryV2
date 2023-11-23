@@ -10,10 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (data.stories.length !== 0) {
           data.stories.forEach((story) => {
+            const coverImg = story.coverImage? story.coverImage: "/images/defaultStoryImg.png"
             const storyContent = `
               <div class="story-content">
               <div class="story-image"> 
-                <img id="coverImg" name="cover_image" src="${story.coverImage }" alt="cover-img" />
+                <img id="coverImg" name="cover_image" src="${ coverImg }" alt="cover-img" />
               </div>
                 <div class="story-details">
 

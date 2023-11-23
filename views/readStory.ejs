@@ -57,7 +57,15 @@
         </div>
 
         <div class="story-image">
-          <img id="coverImg" name="cover_image" src="<%= story.coverImage %>" alt="cover-img" />
+          <% if(!story.coverImage) {%>
+          <img
+            id="coverImg"
+            name="cover_image"
+            src="/images/defaultStoryImg.png"
+          />
+          <% } else { %>
+          <img id="coverImg" name="cover_image" src="<%= story.coverImage %>" />
+          <% } %>
         </div>
 
         <div class="story-details">
