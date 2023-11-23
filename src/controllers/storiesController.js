@@ -3,7 +3,15 @@ const Story = require("../models/storyModel");
 
 const multer = require("multer");
 
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "coverImages/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
 const upload = multer({ storage: storage });
 
 const getStories = async (req, res) => {
@@ -85,7 +93,13 @@ const postStory = async (req, res) => {
 
     const selectedGenre = newGenre ? newGenre : Genres;
 
-    const genreExists = await checkGenre(selectedGenre);
+    await checkGenre(selectedGenre);
+
+    let coverImagePath = "";
+
+    if (req.file) {
+      coverImagePath = `/coverImages/${req.file.filename}`;
+    }
 
     if (storyID) {
       try {
@@ -95,6 +109,7 @@ const postStory = async (req, res) => {
             title,
             preview,
             genre: selectedGenre,
+            coverImage: coverImagePath,
             content: body,
           },
           { new: true }
@@ -113,6 +128,7 @@ const postStory = async (req, res) => {
           preview,
           content: body,
           author,
+          coverImage: coverImagePath,
           comments: [],
           publishDate: new Date().toLocaleDateString(),
         });
