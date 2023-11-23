@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
           data.stories.forEach((story) => {
             const storyContent = `
               <div class="story-content">
-                <div class="story-image"></div>
+              <div class="story-image"> 
+                <img id="coverImg" name="cover_image" src="${story.coverImage }" alt="cover-img" />
+              </div>
                 <div class="story-details">
 
                   <div class="story-tile">
