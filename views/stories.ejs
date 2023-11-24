@@ -51,9 +51,21 @@
         <div class="dropdown-row">
           <label for="Genres" placeholder="Choose">Choose a genre:</label>
           <select name="Genres" id="genres">
-            <% genres.forEach(genre => { %>
-            <option value="<%= genre.genreName %>"><%= genre.genreName %></option>
-            <% }); %>
+            <% genres.forEach(genre => { if(genre.genreName === "All") {%>
+            <option
+              value="<%= genre.genreName
+              %>"
+            >
+              <%= genre.genreName %>
+            </option>
+            <% } else{ %>
+            <option
+              value="<%= genre._id
+             %>"
+            >
+              <%= genre.genreName %>
+            </option>
+            <%} }); %>
           </select>
         </div>
       </form>

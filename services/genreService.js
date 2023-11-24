@@ -17,13 +17,13 @@ const checkGenre = async (genre) => {
     if (!existingGenre) {
       const newGenreDocument = new Genre({ genreName: genre });
       await newGenreDocument.save();
-      return true;
+      return newGenreDocument._id;
     }
 
-    return false;
+    return null;
   } catch (error) {
     console.error("Error fetching genres:", error);
-    return false;
+    return null;
   }
 };
 

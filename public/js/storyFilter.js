@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         resultsContainer.innerHTML = "";
-
+        console.log(data.stories)
         if (data.stories.length !== 0) {
           data.stories.forEach((story) => {
             const coverImg = story.coverImage? story.coverImage: "/images/defaultStoryImg.png"
@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
                   </div>
 
                   <div class="number-of-views">
-                    <i class="fas fa-eye"></i> 200
+                    <i class="fas fa-eye"></i> ${story.nbOfviews}
                   </div>
 
                   <div class="story-genre">
-                    Genre: ${story.genre}
+                    Genre: ${story.genre.genreName}
                   </div>
                   
                   <div class="story-preview">
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           const emptyDiv = document.createElement("div");
           emptyDiv.classList.add("empty");
-          emptyDiv.textContent = `Nu exista nici un rezultat pentru selectia ${genre}!`;
+          emptyDiv.textContent = `No matching for the current selection!`;
           resultsContainer.appendChild(emptyDiv);
         }
       })

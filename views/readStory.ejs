@@ -79,11 +79,11 @@
             <div class="story-date">Date: <%= story.publishDate %></div>
 
             <div class="story-number-of-views">
-              <i class="fas fa-eye">200</i>
+              <i class="fas fa-eye"><%= story.nbOfviews %></i>
             </div>
           </div>
 
-          <div class="story-genre">Genre: <%= story.genre %></div>
+          <div class="story-genre">Genre: <%= story.genre.genreName %></div>
         </div>
       </div>
 

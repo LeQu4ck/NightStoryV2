@@ -1,128 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/editStory.css" />
 
-  <link rel="stylesheet" href="/css/nav.css" />
-  <link rel="stylesheet" href="/css/footer.css" />
-  <link rel="stylesheet" href="/css/editStory.css" />
+    <script defer src="/js/compose.js"></script>
 
-  <script defer src="/js/compose.js"></script>
+    <title>Edit Story</title>
+  </head>
 
-  <title>Edit Story</title>
-</head>
+  <body background="/images/bg.jpg">
+    <div class="top">
+      <input type="checkbox" id="toggle-btn" />
+      <label for="toggle-btn" class="show-menu-btn"
+        ><i class="fas fa-bars"></i
+      ></label>
 
-<body background="/images/bg.jpg">
-  <div class="top">
-    <input type="checkbox" id="toggle-btn" />
-    <label for="toggle-btn" class="show-menu-btn"
-      ><i class="fas fa-bars"></i
-    ></label>
-
-    <div class="nav">
-      <div class="logo">
-        <a href="/"><img src="/images/logo.png" alt="Logo" /></a>
-      </div>
-
-      <ul class="navigation">
-        <li>
-          <a href="/"><i class="fas fa-house-damage"></i> Home </a>
-        </li>
-        <li>
-          <a href="/stories"><i class="fas fa-book-open"></i> Stories </a>
-        </li>
-        <li>
-          <a href="/stories/compose"><i class="fas fa-pen"></i> Compose </a>
-        </li>
-        <li>
-          <a href="#"><i class="fas fa-question"></i> About </a>
-        </li>
-
-        <label for="toggle-btn" class="hide-menu-btn"
-          ><i class="fas fa-times"></i
-        ></label>
-      </ul>
-    </div>
-  </div>
-
-  <div class="story-writing">
-    <form class="form" method="post" action="/stories/submit-story" enctype="multipart/form-data">
-      <div class="submitbtn">
-        <button type="submit">Save Story</button>
-      </div>
-
-      <div class="story-basics">
-        <input type="hidden" name="storyID" value="<%= story.id %>" />
-
-        <div class="story-image">
-          <% if(!story.coverImage) {%>
-          <img id="coverImg" name="cover_image" src="/images/defaultStoryImg.png" />
-          <% } else { %>
-            <img id="coverImg" name="cover_image" src="<%= story.coverImage %>" />
-            <% } %>
-          <button type="button" onclick="openImgUpload()">
-            Choose a cover image
-          </button>
-          <input type="file" class="hidden" accept="image/png image/jpeg image/jpg" id="ImgInp" name="ImgInp" onchange="coverImgUpload()" />
+      <div class="nav">
+        <div class="logo">
+          <a href="/"><img src="/images/logo.png" alt="Logo" /></a>
         </div>
 
-        <div class="story-details">
-          <label for="title"> Choose your title:</label>
-          <input type="text" placeholder="Story title" name="title" value="<%= story.title %>" required />
+        <ul class="navigation">
+          <li>
+            <a href="/"><i class="fas fa-house-damage"></i> Home </a>
+          </li>
+          <li>
+            <a href="/stories"><i class="fas fa-book-open"></i> Stories </a>
+          </li>
+          <li>
+            <a href="/stories/compose"><i class="fas fa-pen"></i> Compose </a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-question"></i> About </a>
+          </li>
 
-          <label for="author"> Author:</label>
-          <input type="text" placeholder="Author" name="author" value="<%= story.author %>" required />
+          <label for="toggle-btn" class="hide-menu-btn"
+            ><i class="fas fa-times"></i
+          ></label>
+        </ul>
+      </div>
+    </div>
 
-          <div class="preview">
-            <label for="preview"> Write a preview (optional):</label>
-            <textarea id="preview" maxlength="400" placeholder="Preview" name="preview">
-<%= story.preview %></textarea>
+    <div class="story-writing">
+      <form
+        class="form"
+        method="post"
+        action="/stories/submit-story"
+        enctype="multipart/form-data"
+      >
+        <div class="submitbtn">
+          <button type="submit">Save Story</button>
+        </div>
+
+        <div class="story-basics">
+          <input type="hidden" name="storyID" value="<%= story.id %>" />
+
+          <div class="story-image">
+            <% if(!story.coverImage) {%>
+            <img
+              id="coverImg"
+              name="cover_image"
+              src="/images/defaultStoryImg.png"
+            />
+            <% } else { %>
+            <img
+              id="coverImg"
+              name="cover_image"
+              src="<%= story.coverImage %>"
+            />
+            <% } %>
+            <button type="button" onclick="openImgUpload()">
+              Choose a cover image
+            </button>
+            <input
+              type="file"
+              class="hidden"
+              accept="image/png image/jpeg image/jpg"
+              id="ImgInp"
+              name="ImgInp"
+              onchange="coverImgUpload()"
+            />
           </div>
 
-          <label for="Genres" placeholder="Choose">Choose a genre:</label>
-          <select name="Genres" id="genres">
-            <option value="" <% if (!story.genre) { %> selected <% } %>>Select</option>
-            <% genres.forEach(function(genre) { %>
-            <option value="<%= genre.genreName %>" <% if (story.genre === genre.genreName) { %> selected<% } %>>
-              <%= genre.genreName %>
-            </option>
-            <% }); %>
-          </select>
-          <div class="new-genre">
-            <div class="genre-checkbox">
-              <input type="checkbox" id="newGenreCheckbox" name="newGenreCheckbox" />
-              <label for="newGenreCheckbox">I want to type a new genre</label>
+          <div class="story-details">
+            <label for="title"> Choose your title:</label>
+            <input
+              type="text"
+              placeholder="Story title"
+              name="title"
+              value="<%= story.title %>"
+              required
+            />
+
+            <label for="author"> Author:</label>
+            <input
+              type="text"
+              placeholder="Author"
+              name="author"
+              value="<%= story.author %>"
+              required
+            />
+
+            <div class="preview">
+              <label for="preview"> Write a preview (optional):</label>
+              <textarea
+                id="preview"
+                maxlength="400"
+                placeholder="Preview"
+                name="preview"
+              >
+<%= story.preview %></textarea
+              >
             </div>
 
-            <input type="text" id="newGenre" name="newGenre" placeholder="Enter new genre" style="display: none" />
+            <label for="Genres" placeholder="Choose">Choose a genre:</label>
+            <select name="Genres" id="genres">
+              <option value="" <% if (!story.genre && !story.genre.genreName) { %> selected <% } %>>Select</option>
+              <% genres.forEach(function(genre) { if (genre.genreName !== "All") { %>
+                <option value="<%= genre._id %>" <% if (story.genre && genre._id.toString() === story.genre._id.toString()) { %> selected <% } %>>
+                  <%= genre.genreName %>
+                </option>
+              <% } }); %>
+            </select>
+            
+            <div class="new-genre">
+              <div class="genre-checkbox">
+                <input
+                  type="checkbox"
+                  id="newGenreCheckbox"
+                  name="newGenreCheckbox"
+                />
+                <label for="newGenreCheckbox">I want to type a new genre</label>
+              </div>
+
+              <input
+                type="text"
+                id="newGenre"
+                name="newGenre"
+                placeholder="Enter new genre"
+                style="display: none"
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="story-body">
-        <textarea maxlength="65000" name="body">
-<%= story.content %></textarea>
-      </div>
-    </form>
-  </div>
-
-  <div class="footer">
-    <div class="social-links">
-      <a href="#"><i class="fab fa-facebook-square" style="color: #3b5998"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-twitter" style="color: #00acee"></i></a>
+        <div class="story-body">
+          <textarea maxlength="65000" name="body">
+<%= story.content %></textarea
+          >
+        </div>
+      </form>
     </div>
 
-    <ul>
-      <li><a href="#"> Terms </a></li>
-      <li><a href="#"> Privacy </a></li>
-      <li><a href="#"> Help </a></li>
-      <li><a href="#"> &copy 2023 </a></li>
-    </ul>
-  </div>
-</body>
+    <div class="footer">
+      <div class="social-links">
+        <a href="#"
+          ><i class="fab fa-facebook-square" style="color: #3b5998"></i
+        ></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter" style="color: #00acee"></i></a>
+      </div>
 
+      <ul>
+        <li><a href="#"> Terms </a></li>
+        <li><a href="#"> Privacy </a></li>
+        <li><a href="#"> Help </a></li>
+        <li><a href="#"> &copy 2023 </a></li>
+      </ul>
+    </div>
+  </body>
 </html>

@@ -1,4 +1,5 @@
 const Genre = require("../models/genresModel");
+const {deleteStoriesForGenre} = require('../../services/storiesService')
 
 const getGenres = async (req, res) => {
   try {
@@ -60,10 +61,11 @@ const postGenre = async (req, res) => {
 
 const deleteGenre = async (req, res) => {
   const genreID = req.params.genreID;
-  console.log(genreID)
 
   try {
     await Genre.deleteOne({ _id: genreID });
+    await deleteStoriesForGenre(genreID);
+
     res.redirect("/genres")
 
   } catch (error) {

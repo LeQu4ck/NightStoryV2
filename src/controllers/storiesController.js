@@ -36,15 +36,16 @@ const getCompose = async (req, res) => {
 const getStoriesByGenre = async (req, res) => {
   const genre = req.params.filter || "All";
 
+  //console.log(genre)
   try {
     let filteredStories;
 
     if (genre === "All") {
-      filteredStories = await Story.find();
+      filteredStories = await Story.find().populate('genre');
     } else {
-      filteredStories = await Story.find({ genre: genre });
+      filteredStories = await Story.find({ genre: genre }).populate('genre');
     }
-
+    
     res.json({ stories: filteredStories });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -53,10 +54,14 @@ const getStoriesByGenre = async (req, res) => {
 
 const getStoryByID = async (req, res) => {
   const storyID = req.params.storyID;
-
+  ///manage nb of views
   try {
-    const story = await Story.findById({ _id: storyID });
+    const story = await Story.findById({ _id: storyID }).populate('genre');
     if (story) {
+
+      story.nbOfviews +=1;
+      await story.save()
+      
       res.render("readStory", { story: story });
     } else {
       res.status(404).json({ message: "Story not found" });
@@ -91,9 +96,13 @@ const postStory = async (req, res) => {
     const { storyID, title, author, preview, Genres, newGenre, body } =
       req.body;
 
-    const selectedGenre = newGenre ? newGenre : Genres;
+    let genreID = "";
 
-    await checkGenre(selectedGenre);
+    if (!Genres) {
+      genreID = await checkGenre(newGenre);
+    } else {
+      genreID = Genres;
+    }
 
     let coverImagePath = "";
 
@@ -106,7 +115,7 @@ const postStory = async (req, res) => {
         let updateFields = {
           title,
           preview,
-          genre: selectedGenre,
+          genre: genreID,
           content: body,
         };
 
@@ -115,7 +124,7 @@ const postStory = async (req, res) => {
         }
 
         await Story.findByIdAndUpdate(storyID, updateFields, { new: true });
-  
+
         res.redirect(`/stories/${storyID}`);
       } catch (error) {
         console.error("Error updating story:", error);
@@ -125,7 +134,7 @@ const postStory = async (req, res) => {
       try {
         const newStory = new Story({
           title,
-          genre: selectedGenre,
+          genre: genreID,
           preview,
           content: body,
           author,
