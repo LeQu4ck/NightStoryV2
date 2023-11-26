@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   newGenreCheckbox.addEventListener("change", function () {
     newGenreInput.style.display = newGenreCheckbox.checked ? "block" : "none";
+    newGenreInput.value = ""
 
     genreSelect.style.display = newGenreCheckbox.checked ? "none" : "block";
     genreSelectLabel.style.display = newGenreCheckbox ? "none" : "block ";

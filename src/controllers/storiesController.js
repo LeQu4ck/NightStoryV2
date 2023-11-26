@@ -1,4 +1,5 @@
 const { getGenres, checkGenre } = require("../../services/genreService");
+const Genre = require("../models/genresModel");
 const Story = require("../models/storyModel");
 
 const multer = require("multer");
@@ -100,8 +101,10 @@ const postStory = async (req, res) => {
 
     if (!Genres) {
       genreID = await checkGenre(newGenre);
-    } else {
-      genreID = Genres;
+    } else if(Genres && newGenre) {
+      genreID = await checkGenre(newGenre);
+    } else{
+      genreID = Genres
     }
 
     let coverImagePath = "";
